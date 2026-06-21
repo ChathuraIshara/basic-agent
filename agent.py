@@ -1,16 +1,18 @@
 from tools.calculator import evaluate as calc_evaluate
 from tools.weather import get_weather as weather_get
 from tools.text_converter import process_text as text_process
+from tools.json_formatter import process_json as json_process
 
 
 class SimpleAgent:
-    """A tiny rule-based agent that routes to calculator, weather, or text converter tool."""
+    """A tiny rule-based agent that routes to calculator, weather, text converter, or JSON formatter tool."""
 
     def __init__(self):
         self.tools = {
             "calculator": calc_evaluate,
             "weather": weather_get,
             "text": text_process,
+            "json": json_process,
         }
 
     def handle(self, query: str) -> str:
@@ -38,7 +40,11 @@ class SimpleAgent:
         if low.startswith("wordcount:") or low.startswith("charcount:") or low.startswith("reverse:"):
             return self.tools["text"](q)
 
-        return "I can answer three kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount:<text>', 'charcount:<text>', or 'reverse:<text>' (text tools)"
+        # JSON formatter triggers: validate:, format:, or minify:
+        if low.startswith("validate:") or low.startswith("format:") or low.startswith("minify:"):
+            return self.tools["json"](q)
+
+        return "I can answer four kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'validate/format/minify:<json>' (JSON tools)"
 
 
 if __name__ == "__main__":

@@ -9,6 +9,9 @@ def quick_tests():
     print('Word count test:', ag.handle('wordcount: hello world python agent'))
     print('Character count test:', ag.handle('charcount: agent'))
     print('Reverse text test:', ag.handle('reverse: hello'))
+    print('JSON validate test:', ag.handle('validate: {"name": "agent", "version": 1}'))
+    print('JSON format test:', ag.handle('format: {"a":1,"b":2}'))
+    print('JSON minify test:', ag.handle('minify: { "name" : "agent" }'))
 
 
 if __name__ == '__main__':
