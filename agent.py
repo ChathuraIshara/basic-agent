@@ -2,15 +2,12 @@ from tools.calculator import evaluate as calc_evaluate
 from tools.weather import get_weather as weather_get
 from tools.text_converter import process_text as text_process
 from tools.json_formatter import process_json as json_process
-
-
-class SimpleAgent:
-    """A tiny rule-based agent that routes to calculator, weather, text converter, or JSON formatter tool."""
 from tools.url_handler import process_url as url_process
+from tools.password_generator import process_password as pwd_process
 
 
 class SimpleAgent:
-    """A tiny rule-based agent that routes to calculator, weather, text converter, or URL handler tool."""
+    """A tiny rule-based agent that routes to calculator, weather, text converter, JSON formatter, URL handler, or password generator tool."""
 
     def __init__(self):
         self.tools = {
@@ -19,6 +16,7 @@ class SimpleAgent:
             "text": text_process,
             "json": json_process,
             "url": url_process,
+            "password": pwd_process,
         }
 
     def handle(self, query: str) -> str:
@@ -50,12 +48,15 @@ class SimpleAgent:
         if low.startswith("validate:") or low.startswith("format:") or low.startswith("minify:"):
             return self.tools["json"](q)
 
-        return "I can answer four kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'validate/format/minify:<json>' (JSON tools)"
         # URL handler triggers: encode:, decode:, or info:
         if low.startswith("encode:") or low.startswith("decode:") or low.startswith("info:"):
             return self.tools["url"](q)
 
-        return "I can answer four kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'encode/decode/info:<url>' (URL tools)"
+        # Password generator triggers: generate:, strength:, or random:
+        if low.startswith("generate:") or low.startswith("strength:") or low.startswith("random:"):
+            return self.tools["password"](q)
+
+        return "I can answer six kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'validate/format/minify:<json>' (JSON tools)\n  'encode/decode/info:<url>' (URL tools)\n  'generate/strength/random:<input>' (password tools)"
 
 
 if __name__ == "__main__":
