@@ -15,6 +15,9 @@ def quick_tests():
     print('URL encode test:', ag.handle('encode: hello world'))
     print('URL decode test:', ag.handle('decode: hello%20world'))
     print('URL info test:', ag.handle('info: https://github.com/user/repo?id=123'))
+    print('Password generate test:', ag.handle('generate: 12'))
+    print('Password strength test:', ag.handle('strength: MyPassword123!'))
+    print('Password random test:', ag.handle('random: strong'))
 
 
 if __name__ == '__main__':
