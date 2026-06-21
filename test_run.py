@@ -12,6 +12,9 @@ def quick_tests():
     print('JSON validate test:', ag.handle('validate: {"name": "agent", "version": 1}'))
     print('JSON format test:', ag.handle('format: {"a":1,"b":2}'))
     print('JSON minify test:', ag.handle('minify: { "name" : "agent" }'))
+    print('URL encode test:', ag.handle('encode: hello world'))
+    print('URL decode test:', ag.handle('decode: hello%20world'))
+    print('URL info test:', ag.handle('info: https://github.com/user/repo?id=123'))
 
 
 if __name__ == '__main__':

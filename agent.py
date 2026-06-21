@@ -6,6 +6,11 @@ from tools.json_formatter import process_json as json_process
 
 class SimpleAgent:
     """A tiny rule-based agent that routes to calculator, weather, text converter, or JSON formatter tool."""
+from tools.url_handler import process_url as url_process
+
+
+class SimpleAgent:
+    """A tiny rule-based agent that routes to calculator, weather, text converter, or URL handler tool."""
 
     def __init__(self):
         self.tools = {
@@ -13,6 +18,7 @@ class SimpleAgent:
             "weather": weather_get,
             "text": text_process,
             "json": json_process,
+            "url": url_process,
         }
 
     def handle(self, query: str) -> str:
@@ -45,6 +51,11 @@ class SimpleAgent:
             return self.tools["json"](q)
 
         return "I can answer four kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'validate/format/minify:<json>' (JSON tools)"
+        # URL handler triggers: encode:, decode:, or info:
+        if low.startswith("encode:") or low.startswith("decode:") or low.startswith("info:"):
+            return self.tools["url"](q)
+
+        return "I can answer four kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'encode/decode/info:<url>' (URL tools)"
 
 
 if __name__ == "__main__":
