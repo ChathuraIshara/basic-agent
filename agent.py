@@ -1,16 +1,18 @@
 from tools.calculator import evaluate as calc_evaluate
 from tools.weather import get_weather as weather_get
 from tools.text_converter import process_text as text_process
+from tools.url_handler import process_url as url_process
 
 
 class SimpleAgent:
-    """A tiny rule-based agent that routes to calculator, weather, or text converter tool."""
+    """A tiny rule-based agent that routes to calculator, weather, text converter, or URL handler tool."""
 
     def __init__(self):
         self.tools = {
             "calculator": calc_evaluate,
             "weather": weather_get,
             "text": text_process,
+            "url": url_process,
         }
 
     def handle(self, query: str) -> str:
@@ -38,7 +40,11 @@ class SimpleAgent:
         if low.startswith("wordcount:") or low.startswith("charcount:") or low.startswith("reverse:"):
             return self.tools["text"](q)
 
-        return "I can answer three kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount:<text>', 'charcount:<text>', or 'reverse:<text>' (text tools)"
+        # URL handler triggers: encode:, decode:, or info:
+        if low.startswith("encode:") or low.startswith("decode:") or low.startswith("info:"):
+            return self.tools["url"](q)
+
+        return "I can answer four kinds of requests:\n  'calc:<expression>' (calculator)\n  'weather:<city>' (weather)\n  'wordcount/charcount/reverse:<text>' (text tools)\n  'encode/decode/info:<url>' (URL tools)"
 
 
 if __name__ == "__main__":

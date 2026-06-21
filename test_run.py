@@ -9,6 +9,9 @@ def quick_tests():
     print('Word count test:', ag.handle('wordcount: hello world python agent'))
     print('Character count test:', ag.handle('charcount: agent'))
     print('Reverse text test:', ag.handle('reverse: hello'))
+    print('URL encode test:', ag.handle('encode: hello world'))
+    print('URL decode test:', ag.handle('decode: hello%20world'))
+    print('URL info test:', ag.handle('info: https://github.com/user/repo?id=123'))
 
 
 if __name__ == '__main__':
